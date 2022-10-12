@@ -1,10 +1,8 @@
-from logger import Logger
 from ohlcv import Heikenashi, CandleType
 
 
 class HaBreakout:
     def __init__(self, obj):
-        self.log = Logger()
         self.ha = Heikenashi(obj)
         self.ltp = self.ha.get_ltp()
 

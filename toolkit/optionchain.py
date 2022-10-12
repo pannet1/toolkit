@@ -1,11 +1,7 @@
-from logger import Logger
 import re
 
 
 class Oc:
-
-    def __init__(self):
-        self.log = Logger()
 
     def _get_option(self, script_name, options):
         scr = ''
@@ -15,13 +11,13 @@ class Oc:
         return scr
 
     def _ce_or_pe(self, script_name):
-       ce_or_pe = 0
-       if script_name.find('PE') > -1:
+        ce_or_pe = 0
+        if script_name.find('PE') > -1:
             ce_or_pe = -1
-       elif script_name.find('CE') > -1:
+        elif script_name.find('CE') > -1:
             ce_or_pe = 1
-       self.log.info(f'call or put is:  {ce_or_pe}')
-       return ce_or_pe
+        self.log.info(f'call or put is:  {ce_or_pe}')
+        return ce_or_pe
     
     def get_scr_param(self, script_name, options):
         lst = []

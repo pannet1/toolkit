@@ -1,11 +1,10 @@
-from logger import Logger
-from fileutils import Fileutils
+from .fileutils import Fileutils
 from optionchain import Oc
+import logging
 
 
 class Symbols:
     def __init__(self):
-        self.log = Logger()
         self.oc = Oc()
         self.futils = Fileutils()
         # get option chain names from strikes directory
@@ -14,7 +13,7 @@ class Symbols:
         for fname in oc_files:
             f = fname.rsplit(".")
             self.options.append(f[0])
-        self.log.info('f{self.options}')
+        logging.info('f{self.options}')
 
     def set_trd_sym(self, side, obj):
         if side == "B":

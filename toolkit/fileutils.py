@@ -1,14 +1,13 @@
-from logger import Logger
 from datetime import date as d
 import os, sys
 import yaml, json
 from typing import List, Optional
 import pandas as pd
+import logging
 
 
 class Fileutils:
     def __init__(self, scr="scripts/"):
-        self.logger = Logger()
         self.scr = scr
 
     def add_path(self, inserted_path: str):
@@ -21,7 +20,7 @@ class Fileutils:
                 lst = yaml.safe_load(f)
             return lst
         except FileNotFoundError:
-            self.logger.warning(f"{ relpath } file not found")
+            logging.warning(f"{ relpath } file not found")
 
     # returns list of files names with specified extension
     def get_files_with_extn(self, extn: str, diry: Optional[str] = None) -> List:
@@ -60,4 +59,4 @@ class Fileutils:
             else:
                 return True
         except FileNotFoundError:
-            self.logger.warning(f"{filepath} file not found")
+            logging.warning(f"{filepath} file not found")

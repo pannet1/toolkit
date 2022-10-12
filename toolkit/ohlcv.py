@@ -1,7 +1,6 @@
-from logger import Logger
-
 import pandas as pd
 from enum import Enum
+import logging
 
 
 class CandleType(Enum):
@@ -44,7 +43,6 @@ class Ohlcv:
 
 class Candlestick(Ohlcv):
     def __init__(self, obj):
-        self.logger = Logger()
         super().__init__()
         ticks = pd.read_csv(
             self.rel_path_file,
@@ -56,7 +54,7 @@ class Candlestick(Ohlcv):
         filtered = ticks.loc[ticks["Symbol"] == comp[1]]
         timed = filtered.between_time(obj["tick_start"], obj["tick_end"])
         self.df = timed["ltp"].resample(obj["timeframe"]).ohlc().dropna()
-        self.logger.info(self.df)
+        logging.info(self.df)
 
     def get_ltp(self):
         if self.len() > 0:
@@ -68,7 +66,6 @@ class Candlestick(Ohlcv):
 
 class Heikenashi(Ohlcv):
     def __init__(self, obj):
-        self.logger = Logger()
         ca = Candlestick(obj)
         df = ca.get_candles()
         self.ltp = None
@@ -86,7 +83,7 @@ class Heikenashi(Ohlcv):
             )
             df.drop(["o", "h", "l", "c"], axis=1, inplace=True)
             self.df = df
-            self.logger.info(df)
+            logging.info(df)
             self.ltp = ca.get_ltp()
         else:
             self.df = pd.DataFrame()

@@ -1,6 +1,7 @@
 from datetime import time
 from pydantic import BaseModel
 
+
 class Scripts(BaseModel):
     base_script: str
     trade_exch: str
@@ -12,8 +13,7 @@ class Scripts(BaseModel):
     entry_start: time
     entry_end: time
     square_off: time
-    product : str
+    product: str
     quantity: int
     tick_start: time
     tick_end: time
-

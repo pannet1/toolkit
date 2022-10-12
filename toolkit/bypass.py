@@ -1,10 +1,9 @@
-from logger import Logger
 import pyotp
 from kiteext import KiteExt
+import logging
 
 
 def Bypass(broker):
-    logger = Logger(20)
     try:
         otp = pyotp.TOTP(broker["totp"])
         pin = otp.now()
@@ -15,5 +14,5 @@ def Bypass(broker):
         )
         return kite
     except Exception as e:
-        logger.critical(f"{e} unable to login")
+        logging.critical(f"{e} unable to login")
         exit()
