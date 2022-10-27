@@ -61,10 +61,10 @@ class Fileutils:
         except FileNotFoundError:
             logging.warning(f"{filepath} file not found")
 
-   def xls_to_dict(filename:str='') -> List[User]:
-    """
-    filename
-        Excel file in required xls format with each one row for items
-    """
-    xls = pd.read_excel(filename).to_dict(orient='records')
-    return xls
+    def xls_to_dict(self, filename: str):
+        """
+        filename
+            Excel file in required xls format with each one row for items
+        """
+        xls = pd.read_excel(filename).to_dict(orient='records')
+        return xls
