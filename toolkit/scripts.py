@@ -22,6 +22,6 @@ class Strikes(BaseModel):
     base_exch: str
     sample: int
     addsub: int
-    expiry: date 
+    expiry: str
 
 
