@@ -18,10 +18,12 @@ class Scripts(BaseModel):
     tick_end: time
 
 class Strikes(BaseModel):
+    base_name: str
     base_script: str
-    base_exch: str
     sample: int
     addsub: int
     expiry: str
+    abv_atm: int
+    opt_exch: str
 
 
