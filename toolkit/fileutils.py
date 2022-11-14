@@ -52,10 +52,11 @@ class Fileutils:
 
     def is_file_not_2day(self, filepath: str) -> bool:
         try:
-            ts = os.path.getmtime(filepath)
-            fd = d.fromtimestamp(ts)
-            if fd == d.today():
-                return False
+            if os.path.exists(filepath):
+                ts = os.path.getmtime(filepath)
+                fd = d.fromtimestamp(ts)
+                if fd == d.today():
+                    return False
             else:
                 return True
         except FileNotFoundError:
@@ -68,3 +69,4 @@ class Fileutils:
         """
         xls = pd.read_excel(filename).to_dict(orient='records')
         return xls
+
