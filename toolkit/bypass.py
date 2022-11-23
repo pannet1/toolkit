@@ -1,5 +1,5 @@
 import pyotp
-from kiteext_2022 import KiteExt
+from kiteext import KiteExt
 import logging
 
 
