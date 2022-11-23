@@ -1,7 +1,6 @@
 import pyotp
-from kiteext-2022 import KiteExt
+from kiteext import KiteExt
 import logging
-
 
 def Bypass(broker):
     try:
