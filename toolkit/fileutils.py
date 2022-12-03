@@ -1,6 +1,8 @@
+import os
+import sys
+import yaml
+import json
 from datetime import date as d
-import os, sys
-import yaml, json
 from typing import List, Optional
 import pandas as pd
 import logging
@@ -52,13 +54,9 @@ class Fileutils:
 
     def is_file_not_2day(self, filepath: str) -> bool:
         try:
-            if os.path.exists(filepath):
-                ts = os.path.getmtime(filepath)
-                fd = d.fromtimestamp(ts)
-                if fd == d.today():
-                    return False
-            else:
-                return True
+            ts = os.path.getmtime(filepath)
+            bln_state = False if (d.fromtimestamp(ts) == d.today()) else True
+            return bln_state
         except FileNotFoundError:
             logging.warning(f"{filepath} file not found")
 
@@ -70,3 +68,6 @@ class Fileutils:
         xls = pd.read_excel(filename).to_dict(orient='records')
         return xls
 
+
+def test_is_file_not_2day(filepath="./../../confid/zerodha_tokens.yaml"):
+    assert Fileutils().is_file_not_2day(filepath) == False
