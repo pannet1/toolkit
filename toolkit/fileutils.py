@@ -69,5 +69,5 @@ class Fileutils:
         return xls
 
 
-def test_is_file_not_2day(filepath="./../../confid/zerodha_tokens.yaml"):
-    assert Fileutils().is_file_not_2day(filepath) == False
+def test_is_file_not_2day(filepath="./../../confid/bypass.tok"):
+    assert Fileutils().is_file_not_2day(filepath) is False
