@@ -67,7 +67,3 @@ class Fileutils:
         """
         xls = pd.read_excel(filename).to_dict(orient='records')
         return xls
-
-
-def test_is_file_not_2day(filepath="./../../confid/bypass.tok"):
-    assert Fileutils().is_file_not_2day(filepath) is False
