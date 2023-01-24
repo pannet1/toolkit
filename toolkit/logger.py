@@ -11,7 +11,7 @@ CRITICAL = 50
 
 
 def Logger(level=10, file=None):
-    logger = logging.getLogger()
+    logger = logging.getLogger(__name__)
     logger.setLevel(level)
     fmt = "[%(asctime)s] %(levelname)s {%(filename)s %(funcName)s : %(lineno)d} - %(message)s]"
     handler = logging.FileHandler(file) if file else logging.StreamHandler()
