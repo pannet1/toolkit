@@ -18,7 +18,7 @@ class Oc:
             ce_or_pe = 1
         self.log.info(f'call or put is:  {ce_or_pe}')
         return ce_or_pe
-    
+
     def get_scr_param(self, script_name, options):
         lst = []
         moneyness = ['ITM', 'OTM']
@@ -27,7 +27,7 @@ class Oc:
         if ness in moneyness:
            ce_or_pe = self._ce_or_pe(script_name)
            if ce_or_pe == 1 or ce_or_pe == -1:
-                scr = self._get_option(script_name, options)                
+                scr = self._get_option(script_name, options)
                 lst = [scr, ness, ce_or_pe]
         return lst
 
@@ -48,3 +48,5 @@ class Oc:
         trade_sym = re.sub(r'\(.+\)', strike, script_name)
         self.log.info(f"trading symbol  {trade_sym}")
         return trade_sym
+
+

@@ -1,4 +1,4 @@
-from .fileutils import Fileutils
+from toolkit.fileutils import Fileutils
 from toolkit.optionchain import Oc
 import logging
 
@@ -30,3 +30,6 @@ class Symbols:
             sym = script
 
         return sym
+
+    if __name__ == "__main__":
+        oc = Oc()
