@@ -54,9 +54,21 @@ class Fileutils:
 
     def is_file_not_2day(self, filepath: str) -> bool:
         try:
-            ts = os.path.getmtime(filepath)
-            bln_state = False if (d.fromtimestamp(ts) == d.today()) else True
-            return bln_state
+            path, filename = os.path.split(filepath)
+            if not os.path.exists(path):
+                os.makedirs(path)
+
+            if not os.path.exists(filepath):
+                # Create the file
+                with open(filepath, 'w') as file:
+                    file.write("This is an example file.")
+                print(f"File '{filename}' created in '{path}'.")
+                return True
+            else:
+                ts = os.path.getmtime(filepath)
+                bln_state = False if (d.fromtimestamp(ts)
+                                      == d.today()) else True
+                return bln_state
         except FileNotFoundError:
             logging.warning(f"{filepath} file not found")
 
