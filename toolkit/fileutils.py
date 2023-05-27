@@ -5,12 +5,18 @@ import json
 from datetime import date as d
 from typing import List, Optional
 import pandas as pd
-import logging
 
 
 class Fileutils:
     def __init__(self, scr="scripts/"):
         self.scr = scr
+
+    def nuke_file(self, relpath):
+        try:
+            with open(relpath, "w"):
+                pass
+        except FileNotFoundError as e:
+            print(f"{relpath} not found {e}")
 
     def add_path(self, inserted_path: str):
         curr_path = os.path.realpath(os.path.dirname(__file__))
@@ -21,8 +27,8 @@ class Fileutils:
             with open(relpath, "r") as f:
                 lst = yaml.safe_load(f)
             return lst
-        except FileNotFoundError:
-            logging.warning(f"{ relpath } file not found")
+        except FileNotFoundError as e:
+            print(f"{relpath} not found {e}")
 
     # returns list of files names with specified extension
     def get_files_with_extn(self, extn: str, diry: Optional[str] = None) -> List:
@@ -61,7 +67,7 @@ class Fileutils:
             if not os.path.exists(filepath):
                 # Create the file
                 with open(filepath, 'w') as file:
-                    file.write("This is an example file.")
+                    file.write("")
                 print(f"File '{filename}' created in '{path}'.")
                 return True
             else:
@@ -69,8 +75,8 @@ class Fileutils:
                 bln_state = False if (d.fromtimestamp(ts)
                                       == d.today()) else True
                 return bln_state
-        except FileNotFoundError:
-            logging.warning(f"{filepath} file not found")
+        except FileNotFoundError as e:
+            print(f"{filepath} not found {e}")
 
     def xls_to_dict(self, filename: str):
         """
