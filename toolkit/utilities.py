@@ -11,12 +11,12 @@ class Utilities:
         self.slp = 1
 
     def slp_til_nxt_sec(self):
-        t = 1
+        self.t = 1
         secs = dt.now().second
         while secs == dt.now().second:
-            t = dt.now().microsecond / 1000000
-            sleep(t)
-        self.slp += t
+            self.t = dt.now().microsecond / 1000000
+            sleep(self.t)
+        self.slp += self.t
 
     def slp_for(self, sec=1):
         sleep(sec)
