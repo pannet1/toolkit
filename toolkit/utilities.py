@@ -5,7 +5,6 @@ from time import sleep
 class Utilities:
 
     def __init__(self):
-        self.t = 1
         self._reset()
 
     def _reset(self) -> None:
@@ -21,4 +20,4 @@ class Utilities:
 
     def slp_for(self, sec=1) -> None:
         sleep(sec)
-        self.reset()
+        self._reset()
