@@ -5,10 +5,7 @@ from time import sleep
 class Utilities:
 
     def __init__(self):
-        self._reset()
-
-    def _reset(self) -> None:
-        self.slp = 1
+        self.secs = 1
 
     def slp_til_nxt_sec(self) -> None:
         secs = dt.now().second
@@ -16,8 +13,6 @@ class Utilities:
             t = dt.now().microsecond / 1000000
             print(f"sleeping for {t} seconds")
             sleep(t)
-        self.slp += t
 
     def slp_for(self, sec=1) -> None:
         sleep(sec)
-        self._reset()
