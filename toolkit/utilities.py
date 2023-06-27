@@ -10,7 +10,7 @@ class Utilities:
     def slp_til_nxt_sec(self) -> None:
         secs = dt.now().second
         if secs == dt.now().second:
-            t = round(secs.microsecond / 1000000, 2)
+            t = round(dt.now().microsecond / 1000000, 2)
             print(f"sleeping for {t} seconds")
             sleep(t)
 
