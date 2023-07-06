@@ -11,6 +11,13 @@ class Fileutils:
     def __init__(self, scr="scripts/"):
         self.scr = scr
 
+    def del_file(self, filename):
+        if os.path.exists(filename):
+            os.remove(filename)
+            print(f"{filename} file removed")
+        else:
+            print(f"{filename} does not exist")
+
     def nuke_file(self, relpath):
         try:
             with open(relpath, "w"):

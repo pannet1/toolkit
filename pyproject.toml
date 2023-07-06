@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[toolkit]
+name = "toolkit"
+version = "1.1.0"
+description = "A useful toolkit for Python development"
+author = "karthick b"
+license = "MIT"
+
