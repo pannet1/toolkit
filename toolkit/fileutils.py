@@ -29,42 +29,6 @@ class Fileutils:
         curr_path = os.path.realpath(os.path.dirname(__file__))
         sys.path.insert(0, curr_path + inserted_path)
 
-    def get_lst_fm_yml(self, relpath: str) -> List:
-        try:
-            with open(relpath, "r") as f:
-                lst = yaml.safe_load(f)
-            return lst
-        except FileNotFoundError as e:
-            print(f"{relpath} not found {e}")
-
-    # returns list of files names with specified extension
-    def get_files_with_extn(self, extn: str, diry: Optional[str] = None) -> List:
-        if not diry:
-            diry = self.scr
-        lst = []
-        for f in os.listdir(diry):
-            if f.endswith("." + extn):
-                lst.append(f)
-        return lst
-
-    # json
-    def save_file(self, jsonobj, fname):
-        with open(fname + ".json", "w", encoding="utf-8") as outfile:
-            json.dump(jsonobj, outfile, ensure_ascii=False, indent=4, str=str)
-
-    def json_fm_file(self, fname):
-        obj = False
-        with open(fname + ".json", "r") as infile:
-            obj = json.load(infile)
-        return obj
-
-    # csv
-    def get_df_fm_csv(self, subfolder, csv_file, colnames=[]):
-        df = pd.read_csv(
-            subfolder + "/" + csv_file + ".csv", names=colnames, header=None
-        )
-        return df
-
     def is_file_not_2day(self, filepath: str) -> bool:
         try:
             path, filename = os.path.split(filepath)
@@ -84,6 +48,55 @@ class Fileutils:
                 return bln_state
         except FileNotFoundError as e:
             print(f"{filepath} not found {e}")
+
+    def get_file_mtime(self, filepath: str) -> str:
+        try:
+            ts = os.path.getmtime(filepath)
+            return d.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
+        except FileNotFoundError as e:
+            print(f"{filepath} not found {e}")
+            return "file_not_found"
+        except Exception as e:
+            print(e)
+            return "file_not_found"
+
+    # returns list of files names with specified extension
+    def get_files_with_extn(self, extn: str, diry: Optional[str] = None) -> List:
+        if not diry:
+            diry = self.scr
+        lst = []
+        for f in os.listdir(diry):
+            if f.endswith("." + extn):
+                lst.append(f)
+        return lst
+
+    # yaml file utilities
+    def get_lst_fm_yml(self, relpath: str) -> List:
+        try:
+            with open(relpath, "r") as f:
+                lst = yaml.safe_load(f)
+            return lst
+        except FileNotFoundError as e:
+            print(f"{relpath} not found {e}")
+
+    # json
+
+    def save_file(self, jsonobj, fname):
+        with open(fname + ".json", "w", encoding="utf-8") as outfile:
+            json.dump(jsonobj, outfile, ensure_ascii=False, indent=4, str=str)
+
+    def json_fm_file(self, fname):
+        obj = False
+        with open(fname + ".json", "r") as infile:
+            obj = json.load(infile)
+        return obj
+
+    # csv
+    def get_df_fm_csv(self, subfolder, csv_file, colnames=[]):
+        df = pd.read_csv(
+            subfolder + "/" + csv_file + ".csv", names=colnames, header=None
+        )
+        return df
 
     def xls_to_dict(self, filename: str):
         """
