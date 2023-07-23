@@ -2,7 +2,7 @@ import os
 import sys
 import yaml
 import json
-from datetime import date as d
+from datetime import date as d, datetime as dt
 from typing import List, Optional
 import pandas as pd
 
@@ -52,7 +52,7 @@ class Fileutils:
     def get_file_mtime(self, filepath: str) -> str:
         try:
             ts = os.path.getmtime(filepath)
-            return d.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
+            return dt.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
         except FileNotFoundError as e:
             print(f"{filepath} not found {e}")
             return "file_not_found"
@@ -105,3 +105,9 @@ class Fileutils:
         """
         xls = pd.read_excel(filename).to_dict(orient='records')
         return xls
+
+
+if __name__ == "__main__":
+    obj = Fileutils()
+    dtime = obj.get_file_mtime("../../../spread.db")
+    print(dtime)
