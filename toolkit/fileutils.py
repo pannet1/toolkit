@@ -2,6 +2,7 @@ import os
 import sys
 import yaml
 import json
+import csv
 from datetime import date as d, datetime as dt
 from typing import List, Optional
 import pandas as pd
@@ -97,6 +98,12 @@ class Fileutils:
             subfolder + "/" + csv_file + ".csv", names=colnames, header=None
         )
         return df
+
+    def append_to_csv(self, filepath, lst_row):
+        # Open the CSV file in append mode and write the new row
+        with open(filepath, mode='a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(lst_row)
 
     def xls_to_dict(self, filename: str):
         """
