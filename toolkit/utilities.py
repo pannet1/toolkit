@@ -11,7 +11,6 @@ class Utilities:
         secs = dt.now().second
         if secs == dt.now().second:
             t = round(dt.now().microsecond / 1000000, 2)
-            print(f"sleeping for {t} seconds")
             sleep(t)
 
     def slp_for(self, sec=1) -> None:
