@@ -31,24 +31,22 @@ class Fileutils:
         sys.path.insert(0, curr_path + inserted_path)
 
     def is_file_not_2day(self, filepath: str) -> bool:
-        try:
-            path, filename = os.path.split(filepath)
-            if not os.path.exists(path):
-                os.makedirs(path)
 
-            if not os.path.exists(filepath):
-                # Create the file
-                with open(filepath, 'w') as file:
-                    file.write("")
-                print(f"File '{filename}' created in '{path}'.")
-                return True
-            else:
-                ts = os.path.getmtime(filepath)
-                bln_state = False if (d.fromtimestamp(ts)
-                                      == d.today()) else True
-                return bln_state
-        except FileNotFoundError as e:
-            print(f"{filepath} not found {e}")
+        path, _ = os.path.split(filepath)
+        if not os.path.exists(path):
+            os.makedirs(path)
+            print(f"{path} not found {e}")
+
+        if not os.path.exists(filepath):
+            with open(filepath, 'w') as file:
+                file.write("")
+            print(f"file {filepath} created")
+            bln_state = True
+        else:
+            ts = os.path.getmtime(filepath)
+            bln_state = False if (d.fromtimestamp(ts)
+                                  == d.today()) else True
+        return bln_state
 
     def get_file_mtime(self, filepath: str) -> str:
         try:
