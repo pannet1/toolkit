@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(name='toolkit',
-      version='1.0',
+      version='1.1.4',
       description='utilities used frequently',
       author='b karthick',
       author_email='prog@ecomsense.in',
