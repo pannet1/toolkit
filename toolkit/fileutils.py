@@ -46,6 +46,7 @@ class Fileutils:
             ts = os.path.getmtime(filepath)
             bln_state = False if (d.fromtimestamp(ts)
                                   == d.today()) else True
+            print(f"{bln_state}: {d.fromtimestamp(ts)} == {d.today()})
         return bln_state
 
     def get_file_mtime(self, filepath: str) -> str:
