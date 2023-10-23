@@ -11,7 +11,8 @@ import pandas as pd
 class Fileutils:
     def __init__(self, scr="scripts/"):
         self.scr = scr
-
+    
+    # file 
     def del_file(self, filename):
         if os.path.exists(filename):
             os.remove(filename)
@@ -60,17 +61,27 @@ class Fileutils:
             print(e)
             return "file_not_found"
 
+    def on_subfolders(self, filepath):
+        if os.path.exists(filepath):
+            # Use os.listdir to get a list of all items in the directory
+            items = os.listdir(filepath)
+            # Use a list comprehension to filter out only the directories (folders)
+            folders = [item for item in items if os.path.isdir(os.path.join(filepath, item))]
+            return folders
+        else:
+            os.makedirs(filepath)
+            return []
+            
     # returns list of files names with specified extension
-    def get_files_with_extn(self, extn: str, diry: Optional[str] = None) -> List:
-        if not diry:
-            diry = self.scr
+    def get_files_with_extn(self, extn: str="", diry: str) -> List:
         lst = []
         for f in os.listdir(diry):
-            if f.endswith("." + extn):
-                lst.append(f)
+            if len(extn)>0 and not f.endswith("." + extn):
+                continue
+            lst.append(f)
         return lst
 
-    # yaml file utilities
+    # yaml
     def get_lst_fm_yml(self, relpath: str) -> List:
         try:
             with open(relpath, "r") as f:
