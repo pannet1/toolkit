@@ -73,7 +73,7 @@ class Fileutils:
             return []
             
     # returns list of files names with specified extension
-    def get_files_with_extn(self, extn: str="", diry: str) -> List:
+    def get_files_with_extn(self, extn: str, diry: str) -> List:
         lst = []
         for f in os.listdir(diry):
             if len(extn)>0 and not f.endswith("." + extn):
