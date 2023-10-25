@@ -11,8 +11,13 @@ import pandas as pd
 class Fileutils:
     def __init__(self, scr="scripts/"):
         self.scr = scr
-    
-    # file 
+
+    # file
+    def is_file_exists(self, filepath):
+        if os.path.exists(filepath):
+            return True
+        return False
+
     def del_file(self, filename):
         if os.path.exists(filename):
             os.remove(filename)
@@ -32,21 +37,19 @@ class Fileutils:
         sys.path.insert(0, curr_path + inserted_path)
 
     def is_file_not_2day(self, filepath: str) -> bool:
-
         path, _ = os.path.split(filepath)
         if not os.path.exists(path):
             os.makedirs(path)
             print(f"{path} not found {e}")
 
         if not os.path.exists(filepath):
-            with open(filepath, 'w') as file:
+            with open(filepath, "w") as file:
                 file.write("")
             print(f"file {filepath} created")
             bln_state = True
         else:
             ts = os.path.getmtime(filepath)
-            bln_state = False if (d.fromtimestamp(ts)
-                                  == d.today()) else True
+            bln_state = False if (d.fromtimestamp(ts) == d.today()) else True
             print(f"{bln_state}: {d.fromtimestamp(ts)} == {d.today()}")
         return bln_state
 
@@ -66,17 +69,19 @@ class Fileutils:
             # Use os.listdir to get a list of all items in the directory
             items = os.listdir(filepath)
             # Use a list comprehension to filter out only the directories (folders)
-            folders = [item for item in items if os.path.isdir(os.path.join(filepath, item))]
+            folders = [
+                item for item in items if os.path.isdir(os.path.join(filepath, item))
+            ]
             return folders
         else:
             os.makedirs(filepath)
             return []
-            
+
     # returns list of files names with specified extension
     def get_files_with_extn(self, extn: str, diry: str) -> List:
         lst = []
         for f in os.listdir(diry):
-            if len(extn)>0 and not f.endswith("." + extn):
+            if len(extn) > 0 and not f.endswith("." + extn):
                 continue
             lst.append(f)
         return lst
@@ -111,7 +116,7 @@ class Fileutils:
 
     def append_to_csv(self, filepath, lst_row):
         # Open the CSV file in append mode and write the new row
-        with open(filepath, mode='a', newline='') as file:
+        with open(filepath, mode="a", newline="") as file:
             writer = csv.writer(file)
             writer.writerow(lst_row)
 
@@ -120,7 +125,7 @@ class Fileutils:
         filename
             Excel file in required xls format with each one row for items
         """
-        xls = pd.read_excel(filename).to_dict(orient='records')
+        xls = pd.read_excel(filename).to_dict(orient="records")
         return xls
 
 
