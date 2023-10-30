@@ -18,6 +18,14 @@ class Fileutils:
             return True
         return False
 
+    def read_file(self, filepath):
+        with open(filepath, "r") as file:
+            return file.read()
+
+    def write_file(self, filepath, content):
+        with open(filepath, "w") as file:
+            file.write(content)
+
     def del_file(self, filename):
         if os.path.exists(filename):
             os.remove(filename)
