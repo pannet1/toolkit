@@ -48,7 +48,7 @@ class Fileutils:
         path, _ = os.path.split(filepath)
         if not os.path.exists(path):
             os.makedirs(path)
-            print(f"{path} not found {e}")
+            print(f"{path} not found")
 
         if not os.path.exists(filepath):
             with open(filepath, "w") as file:
