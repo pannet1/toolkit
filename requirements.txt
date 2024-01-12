@@ -2,7 +2,6 @@ fastapi==0.95.2
 pandas==2.0.1
 pydantic==1.10.7
 PyYAML==6.0
-PyYAML==6.0
 Requests==2.30.0
 selenium==4.9.1
 webdriver_manager==3.8.6
