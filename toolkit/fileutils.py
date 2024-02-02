@@ -107,22 +107,32 @@ class Fileutils:
 
     def save_file(self, jsonobj, fname):
         with open(fname + ".json", "w", encoding="utf-8") as outfile:
-            json.dump(jsonobj, outfile, ensure_ascii=False, indent=4, default=str)
+            json.dump(jsonobj, outfile, ensure_ascii=False,
+                      indent=4, default=str)
 
     def json_fm_file(self, fname):
         obj = False
-        with open(fname + ".json", "r") as infile:
+        extn = ".json"
+        if fname.endswith(extn) is False:
+            fname = fname + extn
+        with open(fname, "r") as infile:
             obj = json.load(infile)
         return obj
 
     # csv
     def get_df_fm_csv(self, subfolder, csv_file, colnames=[]):
+        extn = ".csv"
+        if csv_file.endswith(extn) is False:
+            csv_file = csv_file + extn
         df = pd.read_csv(
-            subfolder + "/" + csv_file + ".csv", names=colnames, header=None
+            subfolder + "/" + csv_file, names=colnames, header=None
         )
         return df
 
     def append_to_csv(self, filepath, lst_row):
+        extn = ".csv"
+        if filepath.endswith(extn) is False:
+            filepath = filepath + extn
         # Open the CSV file in append mode and write the new row
         with open(filepath, mode="a", newline="") as file:
             writer = csv.writer(file)
