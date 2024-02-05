@@ -4,7 +4,7 @@ import yaml
 import json
 import csv
 from datetime import date as d, datetime as dt
-from typing import List, Optional
+from typing import List
 import pandas as pd
 
 
@@ -57,8 +57,13 @@ class Fileutils:
             bln_state = True
         else:
             ts = os.path.getmtime(filepath)
-            bln_state = False if (d.fromtimestamp(ts) == d.today()) else True
-            print(f"{bln_state}: {d.fromtimestamp(ts)} == {d.today()}")
+            timestamp_date = dt.fromtimestamp(ts).date()
+
+            bln_state = False if (timestamp_date.year == d.today().year and
+                                  timestamp_date.month == d.today().month and
+                                  timestamp_date.day == d.today().day) else True
+
+            print(f"{bln_state}: {timestamp_date} == {d.today()}")
         return bln_state
 
     def get_file_mtime(self, filepath: str) -> str:
