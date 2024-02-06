@@ -111,7 +111,10 @@ class Fileutils:
     # json
 
     def save_file(self, jsonobj, fname):
-        with open(fname + ".json", "w", encoding="utf-8") as outfile:
+        extn = ".json"
+        if fname.endswith(extn) is False:
+            fname = fname + extn
+        with open(fname, "w", encoding="utf-8") as outfile:
             json.dump(jsonobj, outfile, ensure_ascii=False,
                       indent=4, default=str)
 
