@@ -4,41 +4,65 @@ import yaml
 import json
 import csv
 from datetime import date as d, datetime as dt
-from typing import List
 import pandas as pd
+from typing import Any, List, NoReturn
 
 
 class Fileutils:
-    def __init__(self, scr="scripts/"):
-        self.scr = scr
+    def __init__(self, data="./data/"):
+        self.data = data
+
+    def get_file_extension(self, filepath: str) -> str:
+        # Split the file path into base and extension
+        _, extension = os.path.splitext(filepath)
+        # Return the extension (without the period)
+        return extension[1:] if extension else ""
 
     # file
-    def is_file_exists(self, filepath):
+    def is_file_exists(self, filepath: str) -> bool:
         if os.path.exists(filepath):
             return True
         return False
 
-    def read_file(self, filepath):
-        with open(filepath, "r") as file:
-            return file.read()
-
-    def write_file(self, filepath, content):
-        with open(filepath, "w") as file:
-            file.write(content)
-
-    def del_file(self, filename):
-        if os.path.exists(filename):
-            os.remove(filename)
-            print(f"{filename} file removed")
-        else:
-            print(f"{filename} does not exist")
-
-    def nuke_file(self, relpath):
+    def read_file(self, filepath: str):
         try:
-            with open(relpath, "w"):
+            extn = self.get_file_extension(filepath)
+            with open(filepath, "r") as file:
+                if extn in ["yml", "yaml"]:
+                    data = yaml.safe_load(file)
+                elif extn == "json":
+                    data = json.load(file)
+                else:
+                    data = file.read()
+                return data
+        except Exception as e:
+            print(f"{filepath} not found {e}")
+
+    def write_file(self, filepath, content) -> None:
+        try:
+            extn = self.get_file_extension(filepath)
+            if extn == json:
+                with open(filepath, "w", encoding="utf-8") as outfile:
+                    json.dump(content, outfile, ensure_ascii=False,
+                              indent=4, default=str)
+            else:
+                with open(filepath, "w") as file:
+                    file.write(content)
+        except Exception as e:
+            print(f"write file {e}")
+
+    def del_file(self, filepath: str) -> None:
+        try:
+            os.remove(filepath)
+        except Exception as e:
+            print(f"{e} while del file")
+
+    def nuke_file(self, filepath: str) -> NoReturn:
+        try:
+            with open(filepath, "w"):
                 pass
-        except FileNotFoundError as e:
-            print(f"{relpath} not found {e}")
+        except Exception as e:
+            print(f"{e} while nuke {filepath}")
 
     def add_path(self, inserted_path: str):
         curr_path = os.path.realpath(os.path.dirname(__file__))
@@ -48,7 +72,7 @@ class Fileutils:
         path, _ = os.path.split(filepath)
         if not os.path.exists(path):
             os.makedirs(path)
-            print(f"{path} not found")
+            print(f"{path} not found ... creating")
 
         if not os.path.exists(filepath):
             with open(filepath, "w") as file:
@@ -77,7 +101,7 @@ class Fileutils:
             print(e)
             return "file_not_found"
 
-    def on_subfolders(self, filepath):
+    def on_subfolders(self, filepath) -> List:
         if os.path.exists(filepath):
             # Use os.listdir to get a list of all items in the directory
             items = os.listdir(filepath)
@@ -100,58 +124,49 @@ class Fileutils:
         return lst
 
     # yaml
-    def get_lst_fm_yml(self, relpath: str) -> List:
+    def get_lst_fm_yml(self, filepath: str) -> Any:
         try:
-            with open(relpath, "r") as f:
+            with open(filepath, "r") as f:
                 lst = yaml.safe_load(f)
             return lst
-        except FileNotFoundError as e:
-            print(f"{relpath} not found {e}")
+        except Exception as e:
+            print(f"{filepath} not found {e}")
 
     # json
-
-    def save_file(self, jsonobj, fname):
-        extn = ".json"
-        if fname.endswith(extn) is False:
-            fname = fname + extn
-        with open(fname, "w", encoding="utf-8") as outfile:
-            json.dump(jsonobj, outfile, ensure_ascii=False,
-                      indent=4, default=str)
-
-    def json_fm_file(self, fname):
+    def json_fm_file(self, filepath) -> Any:
         obj = False
-        extn = ".json"
-        if fname.endswith(extn) is False:
-            fname = fname + extn
-        with open(fname, "r") as infile:
+        extn = self.get_file_extension(filepath)
+        if extn != "json":
+            filepath = filepath + "." + extn
+        with open(filepath, "r") as infile:
             obj = json.load(infile)
         return obj
 
     # csv
+    def append_to_csv(self, csv_file, lst_row):
+        extn = self.get_file_extension(csv_file)
+        if extn != "csv":
+            csv_file = csv_file + "." + extn
+        with open(csv_file, mode="a", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerow(lst_row)
+
     def get_df_fm_csv(self, subfolder, csv_file, colnames=[]):
         extn = ".csv"
         if csv_file.endswith(extn) is False:
             csv_file = csv_file + extn
-        df = pd.read_csv(
-            subfolder + "/" + csv_file, names=colnames, header=None
-        )
+        df = pd.read_csv(filepath_or_buffer=subfolder + "/" + csv_file,
+                         names=colnames,
+                         header=None
+                         )
         return df
 
-    def append_to_csv(self, filepath, lst_row):
-        extn = ".csv"
-        if filepath.endswith(extn) is False:
-            filepath = filepath + extn
-        # Open the CSV file in append mode and write the new row
-        with open(filepath, mode="a", newline="") as file:
-            writer = csv.writer(file)
-            writer.writerow(lst_row)
-
-    def xls_to_dict(self, filename: str):
+    def xls_to_dict(self, filepath: str):
         """
-        filename
+        filepath
             Excel file in required xls format with each one row for items
         """
-        xls = pd.read_excel(filename).to_dict(orient="records")
+        xls = pd.read_excel(filepath).to_dict(orient="records")
         return xls
 
 
