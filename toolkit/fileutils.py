@@ -41,10 +41,11 @@ class Fileutils:
     def write_file(self, filepath, content) -> None:
         try:
             extn = self.get_file_extension(filepath)
-            if extn == json:
+            if extn == "json":
+                json_str = json.dumps(
+                    content, ensure_ascii=False, indent=4, default=str)
                 with open(filepath, "w", encoding="utf-8") as outfile:
-                    json.dump(content, outfile, ensure_ascii=False,
-                              indent=4, default=str)
+                    outfile.write(json_str)
             else:
                 with open(filepath, "w") as file:
                     file.write(content)
