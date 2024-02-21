@@ -31,8 +31,10 @@ class Fileutils:
                 if extn in ["yml", "yaml"]:
                     data = yaml.safe_load(file)
                 elif extn == "json":
+                    print(f"detected json in {extn=}")
                     data = json.load(file)
                 else:
+                    print(f"unknown {extn=}")
                     data = file.read()
                 return data
         except Exception as e:
