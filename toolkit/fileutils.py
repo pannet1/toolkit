@@ -27,15 +27,20 @@ class Fileutils:
     def read_file(self, filepath: str):
         try:
             extn = self.get_file_extension(filepath)
-            with open(filepath, "r") as file:
-                if extn in ["yml", "yaml"]:
+            if extn in ["yml", "yaml"]:
+                with open(filepath, "r") as file:
                     data = yaml.safe_load(file)
-                elif extn == "json":
+                    return data
+
+            elif extn == "json":
+                with open(filepath, 'r', encoding='utf-8', newline='') as file:
                     data = json.load(file)
-                else:
+
+            else:
+                with open(filepath, "r") as file:
                     print(f"unknown {extn=}")
                     data = file.read()
-                return data
+                    return data
         except Exception as e:
             print(f"{filepath} not found {e}")
 
