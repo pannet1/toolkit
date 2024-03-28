@@ -35,6 +35,7 @@ class Fileutils:
             elif extn == "json":
                 with open(filepath, 'r', encoding='utf-8', newline='') as file:
                     data = json.load(file)
+                    return data
 
             else:
                 with open(filepath, "r") as file:
