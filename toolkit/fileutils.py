@@ -33,7 +33,7 @@ class Fileutils:
                     return data
 
             elif extn == "json":
-                with open(filepath, 'r', encoding='utf-8', newline='') as file:
+                with open(filepath, "r", encoding="utf-8", newline="") as file:
                     data = json.load(file)
                     return data
 
@@ -50,7 +50,8 @@ class Fileutils:
             extn = self.get_file_extension(filepath)
             if extn == "json":
                 json_str = json.dumps(
-                    content, ensure_ascii=False, indent=4, default=str)
+                    content, ensure_ascii=False, indent=4, default=str
+                )
                 with open(filepath, "w", encoding="utf-8") as outfile:
                     outfile.write(json_str)
             else:
@@ -91,11 +92,15 @@ class Fileutils:
             ts = os.path.getmtime(filepath)
             timestamp_date = dt.fromtimestamp(ts).date()
 
-            bln_state = False if (timestamp_date.year == d.today().year and
-                                  timestamp_date.month == d.today().month and
-                                  timestamp_date.day == d.today().day) else True
-
-            print(f"{bln_state}: {timestamp_date} == {d.today()}")
+            bln_state = (
+                False
+                if (
+                    timestamp_date.year == d.today().year
+                    and timestamp_date.month == d.today().month
+                    and timestamp_date.day == d.today().day
+                )
+                else True
+            )
         return bln_state
 
     def get_file_mtime(self, filepath: str) -> str:
@@ -131,6 +136,28 @@ class Fileutils:
             lst.append(f)
         return lst
 
+    def rename(self, old_folder_path, new_folder_name):
+        """
+        Args:
+            old_folder_path: folder name with full path
+            new_folder_name: new folder name
+        """
+        try:
+            path, _ = os.path.split(old_folder_path)
+        except FileNotFoundError as e:
+            print(f"{old_folder_path} not found {e}")
+            return None
+
+        try:
+            os.rename(old_folder_path, path + "/" + new_folder_name)
+            print("Folder renamed successfully.")
+        except FileNotFoundError:
+            print("Folder not found.")
+        except FileExistsError:
+            print("A folder with the new name already exists.")
+        except Exception as e:
+            print("An error occurred:", e)
+
     # yaml
     def get_lst_fm_yml(self, filepath: str) -> Any:
         try:
@@ -163,10 +190,9 @@ class Fileutils:
         extn = ".csv"
         if csv_file.endswith(extn) is False:
             csv_file = csv_file + extn
-        df = pd.read_csv(filepath_or_buffer=subfolder + "/" + csv_file,
-                         names=colnames,
-                         header=None
-                         )
+        df = pd.read_csv(
+            filepath_or_buffer=subfolder + "/" + csv_file, names=colnames, header=None
+        )
         return df
 
     def xls_to_dict(self, filepath: str):
@@ -180,5 +206,9 @@ class Fileutils:
 
 if __name__ == "__main__":
     obj = Fileutils()
-    dtime = obj.get_file_mtime("../../../spread.db")
-    print(dtime)
+    t = "./tests"
+    if obj.is_file_not_2day(t):
+        dtime = obj.get_file_mtime(t)
+        # convert string to date
+        test = dtime.split(" ")[0].replace("-", "")
+        obj.rename(t, test)
