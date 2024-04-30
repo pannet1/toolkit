@@ -22,7 +22,7 @@ def is_time_past(time_str: str) -> bool:
     return current_time > given_time
 
 
-def dt_to_str(str_time: str, time_format="YYYY-MM-DD HH:mm") -> pdlm.DateTime:
+def dt_to_str(str_time: str, time_format="YYYY-MM-DD HH:mm") -> str:
     """
     Args:
         str_time: HH:MM:SS or HH:MM
@@ -31,25 +31,25 @@ def dt_to_str(str_time: str, time_format="YYYY-MM-DD HH:mm") -> pdlm.DateTime:
         current time with the given time string
     """
     hour = minute = second = 0
-    lst = str_time.split(":")
-
-    if len(lst) == 3:
-        hour = int(lst[0])
-        minute = int(lst[1])
-        second = int(lst[2])
-    elif len(lst) == 2:
-        hour = int(lst[0])
-        minute = int(lst[1])
-    elif len(lst) == 1:
-        hour = int(lst[0])
-
     current_time = pdlm.now()
-    if hour > 0:
-        current_time = current_time.replace(hour=hour)
-    if minute > 0:
-        current_time = current_time.replace(minute=minute)
-    if second > 0:
-        current_time = current_time.replace(second=second)
+    if len(str_time) > 2:
+        lst = str_time.split(":")
+        if len(lst) == 3:
+            hour = int(lst[0])
+            minute = int(lst[1])
+            second = int(lst[2])
+        elif len(lst) == 2:
+            hour = int(lst[0])
+            minute = int(lst[1])
+        elif len(lst) == 1:
+            hour = int(lst[0])
+        if len(lst) > 0:
+            if hour > 0:
+                current_time = current_time.replace(hour=hour)
+            if minute > 0:
+                current_time = current_time.replace(minute=minute)
+            if second > 0:
+                current_time = current_time.replace(second=second)
     return current_time.format(time_format)
 
 
@@ -63,3 +63,7 @@ def timer(sec=1) -> None:
         sec: second(s) to sleep
     """
     sleep(sec)
+
+
+if __name__ == "__main__":
+    print(dt_to_str("9:0"))
