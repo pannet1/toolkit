@@ -22,7 +22,9 @@ class Fileutils:
     def is_file_exists(self, filepath: str) -> bool:
         if os.path.exists(filepath):
             return True
-        return False
+        else:
+            _ = self.is_mk_filepath(filepath)
+            return False
 
     def read_file(self, filepath: str):
         try:
@@ -77,16 +79,24 @@ class Fileutils:
         curr_path = os.path.realpath(os.path.dirname(__file__))
         sys.path.insert(0, curr_path + inserted_path)
 
-    def is_file_not_2day(self, filepath: str) -> bool:
-        path, _ = os.path.split(filepath)
-        if not os.path.exists(path):
-            os.makedirs(path)
-            print(f"{path} not found ... creating")
+    def is_mk_filepath(self, filepath: str) -> bool:
+        try:
+            path, _ = os.path.split(filepath)
+            if not os.path.exists(path):
+                os.makedirs(path)
+                print(f"{path} not found ... creating")
 
-        if not os.path.exists(filepath):
-            with open(filepath, "w") as file:
-                file.write("")
-            print(f"file {filepath} created")
+            if not os.path.exists(filepath):
+                with open(filepath, "w") as file:
+                    file.write("")
+                print(f"file {filepath} created")
+        except Exception as e:
+            print(f"Error while mk filepath: {e}")
+            return False
+        return True
+
+    def is_file_not_2day(self, filepath: str) -> bool:
+        if not self.is_file_exists(filepath):
             bln_state = True
         else:
             ts = os.path.getmtime(filepath)
