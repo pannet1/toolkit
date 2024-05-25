@@ -15,7 +15,7 @@ class Fileutils:
 
     def copy_file(self, source_dir="../", destination_dir="", filename="settings.yml"):
         if destination_dir == "":
-            destination_dir == self.data
+            destination_dir = self.data
         source_path = os.path.join(source_dir, filename)
         destination_path = os.path.join(destination_dir, filename)
 
