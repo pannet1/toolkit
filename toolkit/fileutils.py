@@ -6,11 +6,30 @@ import csv
 from datetime import date as d, datetime as dt
 import pandas as pd
 from typing import Any, List, NoReturn
+import shutil
 
 
 class Fileutils:
-    def __init__(self, data="./data/"):
+    def __init__(self, data="../data/"):
         self.data = data
+
+    def copy_file(self, source_dir="../", destination_dir="", filename="settings.yml"):
+        if destination_dir == "":
+            destination_dir == self.data
+        source_path = os.path.join(source_dir, filename)
+        destination_path = os.path.join(destination_dir, filename)
+
+        try:
+            shutil.copy(source_path, destination_path)
+            print(
+                f"File '{filename}' copied successfully from {source_dir} to {destination_dir}."
+            )
+        except FileNotFoundError:
+            print(f"File '{filename}' not found in {source_dir}.")
+        except PermissionError:
+            print(f"Permission denied while copying '{filename}'.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
 
     def get_file_extension(self, filepath: str) -> str:
         # Split the file path into base and extension
