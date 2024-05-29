@@ -20,7 +20,7 @@ class Fileutils:
         destination_path = os.path.join(destination_dir, filename)
 
         try:
-            shutil.copy(source_path, destination_path)
+            shutil.copy2(source_path, destination_path)
             print(
                 f"File '{filename}' copied successfully from {source_dir} to {destination_dir}."
             )
