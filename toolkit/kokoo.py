@@ -1,4 +1,5 @@
 from time import sleep
+import subprocess
 
 try:
     import pendulum as pdlm
@@ -63,6 +64,13 @@ def timer(sec=1) -> None:
         sec: second(s) to sleep
     """
     sleep(sec)
+
+
+def kill_tmux():
+    try:
+        subprocess.run(["tmux", "kill-session"], check=True)
+    except subprocess.CalledProcessError as e:
+        raise e
 
 
 if __name__ == "__main__":

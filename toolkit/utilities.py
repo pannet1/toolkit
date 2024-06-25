@@ -3,7 +3,6 @@ from time import sleep
 
 
 class Utilities:
-
     def __init__(self):
         self.secs = 1
 
@@ -29,12 +28,11 @@ class Utilities:
 
             # Use 'pip' to install the module
             try:
-                subprocess.check_call([sys.executable, "-m", "pip", "install", module_name])
+                subprocess.check_call(
+                    [sys.executable, "-m", "pip", "install", module_name]
+                )
             except subprocess.CalledProcessError:
                 print(f"Failed to install {module_name}. Please install it manually.")
             else:
                 # Module installed successfully, now you can import it
                 from rich import print
-
-
-
