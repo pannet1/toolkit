@@ -20,7 +20,7 @@ def is_time_past(time_str: str) -> bool:
     tz = "Asia/Kolkata"
     given_time = pdlm.parse(time_str, tz=tz)
     current_time = pdlm.now(tz=tz)
-    return current_time > given_time
+    return current_time >= given_time
 
 
 def dt_to_str(str_time: str, time_format="YYYY-MM-DD HH:mm") -> str:
