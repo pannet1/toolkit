@@ -2,19 +2,10 @@
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
-[project]
+[toolkit]
 name = "toolkit"
 version = "1.1.6"
 description = "A useful toolkit for Python development"
-authors = [{name = "karthick b", email = "prog@ecomsense.in"}]
-license = {text = "MIT"}
-requires-python = ">=3.10,<3.11"
-dependencies = [
-    "fastapi==0.95.2",
-    "pandas==2.0.1",
-    "pydantic==1.10.7",
-    "PyYAML==6.0",
-    "Requests==2.30.0",
-    "selenium==4.9.1",
-    "webdriver_manager==3.8.6",
-]
+author = "karthick b"
+license = "MIT"
+
